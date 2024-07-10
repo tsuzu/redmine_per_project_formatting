@@ -5,12 +5,13 @@ require File.expand_path('../redmine_per_project_formatting/setting_patch', __FI
 
 module RedminePerProjectFormatting
   def self.apply_patch
-    ::ApplicationController.prepend ApplicationControllerPatch
-    ::Project.send :include, ProjectPatch
-    ::Setting.singleton_class.prepend SettingPatch
+    ::ApplicationController.prepend(ApplicationControllerPatch)
+    ::Project.include(ProjectPatch)
+    ::Setting.singleton_class.prepend(SettingPatch)
+    
     if defined?(RedmineCkeditor)
-      require 'redmine_per_project_formatting/mail_handler_patch'
-      ::MailHandler.prepend MailHandlerPatch
+      require File.expand_path('../redmine_per_project_formatting/mail_handler_patch', __FILE__)
+      ::MailHandler.prepend(MailHandlerPatch)
     end
   end
 end
